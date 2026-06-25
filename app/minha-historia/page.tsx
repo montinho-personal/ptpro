@@ -137,7 +137,7 @@ export default function MinhaHistoria() {
             <div className="grid grid-cols-2 gap-3">
               <div className="aspect-square bg-gray-900 overflow-hidden">
                 <img
-                  src="/foto-historia-2.jpg"
+                  src="/foto-historia-4.jpg"
                   alt="Montinho Personal Trainer"
                   className="w-full h-full object-cover"
                   style={{ objectPosition: "top center" }}
