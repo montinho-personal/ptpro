@@ -9,9 +9,10 @@ export default function MinhaHistoriaPreview() {
           <div className="relative">
             <div className="aspect-[4/5] bg-gray-900 overflow-hidden">
               <img
-                src="https://placehold.co/800x1000/1a1a1a/333333?text=Montinho+PT"
+                src="/foto-historia-montinho-personal.jpeg"
                 alt="Montinho Personal Trainer"
-                className="w-full h-full object-cover opacity-70"
+                className="w-full h-full object-cover"
+                style={{ objectPosition: "top center" }}
               />
             </div>
             {/* Decorative element */}

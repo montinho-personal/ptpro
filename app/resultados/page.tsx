@@ -15,6 +15,7 @@ const resultados = [
     duration: "6 meses",
     result: "−22kg de gordura",
     modality: "Consultoria Online",
+    photo: undefined as string | undefined,
     description:
       "Carlos chegou sem nunca ter se exercitado de forma consistente. Com um plano realista para sua rotina corrida de executivo, transformou o corpo sem abrir mão da vida social.",
     quote:
@@ -26,6 +27,7 @@ const resultados = [
     duration: "4 meses",
     result: "−15kg e recuperação pós-parto",
     modality: "Personal Presencial · Alphaville",
+    photo: undefined as string | undefined,
     description:
       "Mãe de dois filhos, Fernanda precisava de um treino que respeitasse seu corpo pós-gestação e sua rotina intensa. O resultado superou todas as expectativas.",
     quote:
@@ -37,6 +39,7 @@ const resultados = [
     duration: "8 meses",
     result: "+8kg de massa magra",
     modality: "Modelo Híbrido",
+    photo: undefined as string | undefined,
     description:
       "Ricardo treinava há anos mas não via progresso. Lesões recorrentes e treinos sem periodização foram corrigidos com método e paciência.",
     quote:
@@ -48,6 +51,7 @@ const resultados = [
     duration: "5 meses",
     result: "−18kg e reversão de quadro pré-diabético",
     modality: "Consultoria Online",
+    photo: undefined as string | undefined,
     description:
       "Patricia tinha indicação médica para perder peso. Com orientação nutricional integrada ao treino, reverteu um quadro pré-diabético e recuperou a energia.",
     quote:
@@ -59,6 +63,7 @@ const resultados = [
     duration: "4 meses",
     result: "Corpo definido para o verão",
     modality: "Personal Presencial · Alphaville",
+    photo: undefined as string | undefined,
     description:
       "Bruno queria chegar ao verão com o corpo definido. Com protocolo específico de hipertrofia e perda de gordura, chegou no resultado antes do prazo.",
     quote:
@@ -70,6 +75,7 @@ const resultados = [
     duration: "7 meses",
     result: "−20kg e eliminação de dores lombares crônicas",
     modality: "Modelo Híbrido",
+    photo: undefined as string | undefined,
     description:
       "Luciana sofria de dores lombares há anos. O trabalho combinado de fortalecimento e mobilidade não apenas eliminou as dores como ajudou a emagrecer 20kg.",
     quote:
@@ -95,17 +101,17 @@ export default function Resultados() {
       <section className="py-20 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {resultados.map((item, index) => (
+            {resultados.filter((item) => item.photo).map((item, index) => (
               <article
                 key={index}
                 className="border border-white/10 group hover:border-white/30 transition-colors duration-300"
               >
-                {/* Placeholder image */}
+                {/* Before/after photo */}
                 <div className="aspect-[4/3] bg-gray-900 overflow-hidden">
                   <img
-                    src="https://placehold.co/400x300/1a1a1a/333333?text=Antes+%26+Depois"
+                    src={item.photo}
                     alt={`Transformação de ${item.name}`}
-                    className="w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity duration-300"
+                    className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-300"
                   />
                 </div>
 

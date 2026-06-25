@@ -34,11 +34,12 @@ export default function MinhaHistoria() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Image */}
           <div className="mb-16 relative">
-            <div className="aspect-video bg-gray-900 overflow-hidden">
+            <div className="aspect-[3/4] sm:aspect-[4/3] bg-gray-900 overflow-hidden">
               <img
-                src="https://placehold.co/1200x675/1a1a1a/333333?text=Montinho+Personal+Trainer"
+                src="/foto-historia-montinho-personal.jpeg"
                 alt="Montinho Personal Trainer"
-                className="w-full h-full object-cover opacity-70"
+                className="w-full h-full object-cover"
+                style={{ objectPosition: "top center" }}
               />
             </div>
           </div>
@@ -50,20 +51,47 @@ export default function MinhaHistoria() {
                 className="text-2xl sm:text-3xl font-bold text-white mb-5"
                 style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
               >
-                A criança que não se encaixava
+                O menino que sorria por fora
               </h2>
               <div className="space-y-4 text-gray-300 leading-relaxed">
                 <p>
-                  Desde pequeno, eu era diferente. Enquanto os outros corriam
-                  pelo parque com leveza, eu ficava mais perto do banco, evitando
-                  o cansaço e o constrangimento. A obesidade chegou cedo — e com
-                  ela, vieram a vergonha, as piadas, e aquela sensação amarga de
-                  não pertencer.
+                  Desde criança, eu era o gordinho da turma. Sempre fui muito
+                  alegre, comunicativo e brincalhão. Quem me via de fora
+                  provavelmente imaginava que eu era uma criança feliz o tempo
+                  todo.
                 </p>
                 <p>
-                  Cresci ouvindo que era preguiçoso. Que faltava força de
-                  vontade. Que era só eu querer e parar de comer tanto. Mas a
-                  verdade é que eu tentava. Deus sabe que eu tentava.
+                  Mas, muitas vezes, aquele sorriso era uma forma de esconder
+                  como eu realmente me sentia quando me olhava no espelho.
+                </p>
+                <p>
+                  Ser o mais engraçado era, sem perceber, uma maneira de me
+                  sentir aceito. De fazer parte do grupo. De compensar uma
+                  insegurança que eu carregava comigo todos os dias.
+                </p>
+                <p>
+                  Apesar do sobrepeso, nunca fui parado. Sempre gostei de
+                  esportes. Pratiquei artes marciais, musculação e estava
+                  constantemente tentando mudar meu corpo. Eu me esforçava,
+                  treinava e buscava evoluir.
+                </p>
+                <p>
+                  As pessoas diziam que eu era guerreiro. Que eu tinha força de
+                  vontade. Que uma hora daria certo.
+                </p>
+                <p>
+                  Mas, no fundo, havia uma pessoa que ainda não acreditava em si
+                  mesma.
+                </p>
+                <p>
+                  Eu olhava para o espelho e não enxergava o resultado que tanto
+                  desejava. Por mais que tentasse, parecia que eu nunca conseguia
+                  chegar lá.
+                </p>
+                <p>
+                  <strong className="text-white">
+                    Mas a verdade é que eu tentava. Deus sabe que eu tentava.
+                  </strong>
                 </p>
               </div>
             </section>
@@ -106,6 +134,25 @@ export default function MinhaHistoria() {
               </div>
             </section>
 
+            <div className="grid grid-cols-2 gap-3">
+              <div className="aspect-square bg-gray-900 overflow-hidden">
+                <img
+                  src="/foto-historia-2.jpg"
+                  alt="Montinho Personal Trainer"
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: "top center" }}
+                />
+              </div>
+              <div className="aspect-square bg-gray-900 overflow-hidden">
+                <img
+                  src="/foto-historia-3.jpg"
+                  alt="Montinho Personal Trainer"
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: "top center" }}
+                />
+              </div>
+            </div>
+
             <section>
               <h2
                 className="text-2xl sm:text-3xl font-bold text-white mb-5"
@@ -140,7 +187,7 @@ export default function MinhaHistoria() {
                     className="text-3xl font-bold text-white mb-1"
                     style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
                   >
-                    +20kg
+                    +40kg
                   </p>
                   <p className="text-gray-400 text-sm">perdidos na transformação pessoal</p>
                 </div>
@@ -149,9 +196,9 @@ export default function MinhaHistoria() {
                     className="text-3xl font-bold text-white mb-1"
                     style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
                   >
-                    +5 anos
+                    +20 anos
                   </p>
-                  <p className="text-gray-400 text-sm">de estudo e prática profissional</p>
+                  <p className="text-gray-400 text-sm">de experiência em musculação</p>
                 </div>
                 <div>
                   <p
@@ -192,6 +239,33 @@ export default function MinhaHistoria() {
               </div>
             </section>
 
+            <div className="grid grid-cols-3 gap-3">
+              <div className="aspect-[3/4] bg-gray-900 overflow-hidden">
+                <img
+                  src="/montinho-personal-trainer-shape.jpg"
+                  alt="Montinho Personal Trainer"
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: "top center" }}
+                />
+              </div>
+              <div className="aspect-[3/4] bg-gray-900 overflow-hidden">
+                <img
+                  src="/montinho-personal-trainer-shape-2.jpg"
+                  alt="Montinho Personal Trainer"
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: "top center" }}
+                />
+              </div>
+              <div className="aspect-[3/4] bg-gray-900 overflow-hidden">
+                <img
+                  src="/montinho-personal-trainer-shape-3.jpg"
+                  alt="Montinho Personal Trainer"
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: "top center" }}
+                />
+              </div>
+            </div>
+
             <section>
               <h2
                 className="text-2xl sm:text-3xl font-bold text-white mb-5"
@@ -207,10 +281,10 @@ export default function MinhaHistoria() {
                   acompanhando de perto.
                 </p>
                 <p>
-                  Me formei em Educação Física e mergulhei fundo em tudo que se
-                  relaciona à transformação corporal sustentável. Fui buscar o
-                  que a ciência realmente comprova — e o que é apenas mito e
-                  modismo.
+                  Estudei, me formei e aprofundei meus conhecimentos em tudo o
+                  que envolve a musculação e a transformação corporal sustentável.
+                  Minha busca sempre foi separar o que a ciência realmente
+                  comprova daquilo que é apenas mito, modismo ou promessa vazia.
                 </p>
                 <p>
                   Hoje meu trabalho vai muito além de passar exercícios. Estou do
