@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PT Pro — Encontre o personal trainer ideal perto de você</title>
+<meta name="description" content="Encontre e contrate o personal trainer ideal na sua região. Profissionais verificados, avaliações reais e a indicação certa para o seu objetivo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#09090E;--bg2:#111118;--bg3:#18181F;--bg4:#22222C;
+  --border:#2A2A38;--border2:#3A3A4A;
+  --text:#F0F0F8;--text2:#C0C0D0;--text3:#707088;
+  --accent:#C8F04D;--accent2:#A8D030;--accent-dim:#C8F04D22;
+  --red:#FF5555;--red-dim:#FF555522;
+  --amber:#F0A020;--amber-dim:#F0A02022;
+  --green:#50E0A0;--green-dim:#50E0A022;
+  --blue:#5090FF;--blue-dim:#5090FF22;
+  --radius:14px;--maxw:1160px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+section{position:relative}
+
+/* ===== Buttons ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:10px;border:1px solid transparent;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;transition:transform .15s,box-shadow .15s,background .15s,border-color .15s;line-height:1;white-space:nowrap}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--accent);color:#09090E}
+.btn-primary:hover{box-shadow:0 8px 28px -8px var(--accent);transform:translateY(-1px)}
+.btn-primary i{color:#09090E}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--border2)}
+.btn-ghost:hover{background:var(--bg3);border-color:var(--text3)}
+.btn-wa{background:#0E3A2A;color:#50E0A0;border-color:#1d5a44}
+.btn-wa:hover{background:#134d38}
+.btn-wa i{color:#50E0A0}
+.btn-lg{padding:15px 28px;font-size:15px}
+.btn-block{width:100%}
+
+/* ===== Header ===== */
+header{position:sticky;top:0;z-index:50;background:rgba(9,9,14,.72);backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .2s,background .2s}
+header.scrolled{border-bottom-color:var(--border);background:rgba(9,9,14,.9)}
+.nav{display:flex;align-items:center;gap:24px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700}
+.logo-icon{width:34px;height:34px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#09090E;font-size:18px;flex-shrink:0}
+.logo-icon i{color:#09090E}
+.logo-text{font-size:16px;letter-spacing:-.02em}
+.logo-text span{color:var(--accent)}
+.nav-links{display:flex;gap:6px;margin-left:14px}
+.nav-links a{padding:8px 12px;border-radius:8px;color:var(--text2);font-size:14px;font-weight:500;transition:color .15s,background .15s}
+.nav-links a:hover{color:var(--text);background:var(--bg3)}
+.nav-cta{margin-left:auto;display:flex;align-items:center;gap:10px}
+.menu-btn{display:none;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer}
+
+/* ===== Hero ===== */
+.hero{padding:72px 0 64px;text-align:center;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:760px;height:760px;background:radial-gradient(circle, var(--accent-dim) 0%, transparent 62%);pointer-events:none;z-index:-1}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);padding:7px 14px;border-radius:100px;font-size:13px;color:var(--text2);font-weight:500;margin-bottom:26px}
+.eyebrow i{color:var(--accent);font-size:15px}
+.hero h1{font-size:clamp(34px,6vw,60px);line-height:1.05;font-weight:800;letter-spacing:-.03em;margin-bottom:20px}
+.hero h1 .hl{color:var(--accent)}
+.hero p.sub{font-size:clamp(16px,2.4vw,20px);color:var(--text2);max-width:600px;margin:0 auto 34px}
+
+/* Search bar */
+.searchbar{display:flex;gap:8px;background:var(--bg2);border:1px solid var(--border);padding:8px;border-radius:16px;max-width:680px;margin:0 auto 18px;box-shadow:0 24px 60px -30px #000}
+.searchfield{display:flex;align-items:center;gap:10px;flex:1;padding:0 12px}
+.searchfield i{color:var(--text3);font-size:20px}
+.searchfield select,.searchfield input{background:none;border:none;outline:none;color:var(--text);font-size:15px;font-family:inherit;width:100%;cursor:pointer}
+.searchfield input{cursor:text}
+.searchfield select option{background:var(--bg3);color:var(--text)}
+.searchfield+.searchfield{border-left:1px solid var(--border)}
+.searchbar .btn{flex-shrink:0}
+.hero-trust{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:30px;color:var(--text3);font-size:13px}
+.hero-trust span{display:inline-flex;align-items:center;gap:7px}
+.hero-trust i{color:var(--accent);font-size:16px}
+
+/* ===== Stats ===== */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;text-align:center}
+.stat .num{font-size:30px;font-weight:800;color:var(--accent);letter-spacing:-.02em}
+.stat .lbl{font-size:13px;color:var(--text3);margin-top:4px}
+
+/* ===== Section header ===== */
+.sec-head{text-align:center;max-width:620px;margin:0 auto 44px}
+.sec-tag{font-size:13px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.sec-head h2{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-.025em;line-height:1.1;margin-bottom:14px}
+.sec-head p{color:var(--text2);font-size:16px}
+.sec-pad{padding:84px 0}
+
+/* ===== How it works ===== */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:30px 26px;position:relative;transition:border-color .2s,transform .2s}
+.step:hover{border-color:var(--border2);transform:translateY(-3px)}
+.step-n{position:absolute;top:24px;right:26px;font-size:48px;font-weight:800;color:var(--bg4);line-height:1}
+.step-ic{width:52px;height:52px;border-radius:13px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.step-ic i{color:var(--accent);font-size:26px}
+.step h3{font-size:19px;font-weight:700;margin-bottom:8px}
+.step p{color:var(--text2);font-size:14px}
+
+/* ===== Directory ===== */
+.dir-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:30px}
+.dir-search{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;flex:1;min-width:240px;max-width:380px}
+.dir-search i{color:var(--text3)}
+.dir-search input{background:none;border:none;outline:none;color:var(--text);font-size:14px;font-family:inherit;width:100%}
+.dir-search input::placeholder{color:var(--text3)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.chip{padding:9px 16px;border-radius:100px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;font-family:inherit}
+.chip:hover{border-color:var(--border2);color:var(--text)}
+.chip.active{background:var(--accent);border-color:var(--accent);color:#09090E}
+.dir-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:22px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column}
+.card:hover{border-color:var(--border2);transform:translateY(-3px)}
+.card-top{display:flex;gap:14px;align-items:center;margin-bottom:16px}
+.avatar{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;color:#09090E;font-weight:800;font-size:20px;flex-shrink:0;position:relative}
+.avatar .verified{position:absolute;bottom:-2px;right:-2px;width:20px;height:20px;border-radius:50%;background:var(--blue);border:2px solid var(--bg2);display:flex;align-items:center;justify-content:center}
+.avatar .verified i{color:#fff;font-size:11px}
+.card-name{font-size:17px;font-weight:700;display:flex;align-items:center;gap:6px}
+.card-loc{font-size:13px;color:var(--text3);display:flex;align-items:center;gap:5px;margin-top:2px}
+.card-rating{display:flex;align-items:center;gap:6px;margin-bottom:14px;font-size:14px}
+.card-rating .stars i{color:var(--amber);font-size:15px}
+.card-rating b{font-weight:700}
+.card-rating span{color:var(--text3);font-size:13px}
+.card-tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.tag{font-size:12px;font-weight:500;padding:5px 10px;border-radius:7px;background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
+.card-bio{font-size:13.5px;color:var(--text2);margin-bottom:18px;flex:1}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid var(--border)}
+.card-price{font-size:13px;color:var(--text3)}
+.card-price b{display:block;font-size:18px;color:var(--text);font-weight:700}
+.dir-empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text3)}
+.dir-empty i{font-size:40px;color:var(--bg4);display:block;margin-bottom:12px}
+
+/* ===== Features split ===== */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.split .feat-list{display:flex;flex-direction:column;gap:22px}
+.feat{display:flex;gap:16px}
+.feat-ic{width:46px;height:46px;border-radius:11px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.feat-ic i{color:var(--accent);font-size:23px}
+.feat h4{font-size:17px;font-weight:700;margin-bottom:4px}
+.feat p{color:var(--text2);font-size:14px}
+.feat-visual{background:linear-gradient(160deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:20px;padding:30px;position:relative;overflow:hidden}
+.feat-visual::before{content:"";position:absolute;top:-80px;right:-80px;width:240px;height:240px;background:radial-gradient(circle,var(--accent-dim),transparent 70%)}
+.mini-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;position:relative}
+.mini-card:last-child{margin-bottom:0}
+.mini-row{display:flex;align-items:center;gap:12px}
+.mini-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;color:#09090E;font-weight:800;font-size:15px}
+.mini-info b{font-size:14px;display:block}
+.mini-info span{font-size:12px;color:var(--text3)}
+.mini-info .stars i{color:var(--amber);font-size:12px}
+.mini-badge{margin-left:auto;background:var(--green-dim);color:var(--green);font-size:11px;font-weight:600;padding:5px 10px;border-radius:7px}
+
+/* ===== Testimonials ===== */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.testi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:26px}
+.testi .stars{margin-bottom:14px}
+.testi .stars i{color:var(--amber);font-size:16px}
+.testi p{font-size:14.5px;color:var(--text);margin-bottom:20px;line-height:1.65}
+.testi-who{display:flex;align-items:center;gap:12px}
+.testi-av{width:42px;height:42px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;color:var(--text);font-weight:700;font-size:15px}
+.testi-who b{font-size:14px;display:block}
+.testi-who span{font-size:12.5px;color:var(--text3)}
+
+/* ===== For trainers (CTA band) ===== */
+.band{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:24px;padding:56px;text-align:center;position:relative;overflow:hidden}
+.band::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% -20%,var(--accent-dim),transparent 60%);pointer-events:none}
+.band h2{font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:-.02em;margin-bottom:14px;position:relative}
+.band p{color:var(--text2);font-size:17px;max-width:540px;margin:0 auto 30px;position:relative}
+.band-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative}
+
+/* ===== FAQ ===== */
+.faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;cursor:pointer;font-weight:600;font-size:15.5px}
+.faq-q i{color:var(--accent);font-size:20px;transition:transform .2s;flex-shrink:0}
+.faq-item.open .faq-q i{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;color:var(--text2);font-size:14.5px}
+.faq-a div{padding:0 22px 20px}
+.faq-item.open .faq-a{max-height:240px}
+
+/* ===== Footer ===== */
+footer{border-top:1px solid var(--border);padding:56px 0 32px;margin-top:40px}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:44px}
+.foot-brand p{color:var(--text3);font-size:14px;margin-top:16px;max-width:280px}
+.foot-col h5{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:16px}
+.foot-col a{display:block;color:var(--text2);font-size:14px;padding:5px 0;transition:color .15s}
+.foot-col a:hover{color:var(--accent)}
+.foot-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:28px;border-top:1px solid var(--border);color:var(--text3);font-size:13px;flex-wrap:wrap}
+.foot-social{display:flex;gap:10px}
+.foot-social a{width:36px;height:36px;border-radius:9px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all .15s}
+.foot-social a:hover{color:var(--accent);border-color:var(--border2)}
+
+/* ===== Mobile ===== */
+.mobile-menu{display:none;position:fixed;inset:68px 0 0;background:var(--bg);z-index:40;padding:24px;flex-direction:column;gap:6px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{padding:14px 16px;border-radius:10px;font-size:16px;font-weight:500;color:var(--text2)}
+.mobile-menu a:hover{background:var(--bg3);color:var(--text)}
+.mobile-menu .btn{margin-top:12px}
+
+@media(max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .steps,.testi-grid,.dir-grid{grid-template-columns:1fr 1fr}
+  .split{grid-template-columns:1fr;gap:36px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .nav-links{display:none}
+  .nav-cta .btn-ghost{display:none}
+  .menu-btn{display:block}
+  .searchbar{flex-direction:column;padding:10px}
+  .searchfield{padding:12px;border-radius:10px;background:var(--bg3)}
+  .searchfield+.searchfield{border-left:none}
+  .searchbar .btn{width:100%}
+  .steps,.testi-grid,.dir-grid,.stats{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .band{padding:40px 24px}
+  .sec-pad{padding:60px 0}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#" class="logo">
+      <span class="logo-icon"><i class="ti ti-barbell"></i></span>
+      <span class="logo-text">PT<span>Pro</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#como">Como funciona</a>
+      <a href="#personais">Personais</a>
+      <a href="#para-personais">Para personais</a>
+      <a href="#faq">Dúvidas</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#para-personais" class="btn btn-ghost">Sou personal</a>
+      <a href="#personais" class="btn btn-primary"><i class="ti ti-search"></i> Encontrar personal</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#como">Como funciona</a>
+  <a href="#personais">Personais</a>
+  <a href="#para-personais">Para personais</a>
+  <a href="#faq">Dúvidas</a>
+  <a href="#personais" class="btn btn-primary btn-block"><i class="ti ti-search"></i> Encontrar personal</a>
+</div>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow"><i class="ti ti-sparkles"></i> A indicação certa, na sua região</span>
+    <h1>Encontre o <span class="hl">personal trainer</span><br>ideal perto de você</h1>
+    <p class="sub">Profissionais verificados, avaliações reais de alunos e o match perfeito para o seu objetivo — em cada bairro, academia e cidade.</p>
+
+    <form class="searchbar" id="heroSearch" onsubmit="return scrollToDir(event)">
+      <label class="searchfield">
+        <i class="ti ti-map-pin"></i>
+        <select id="heroRegion">
+          <option value="">Sua região</option>
+          <option>Zona Sul</option>
+          <option>Zona Norte</option>
+          <option>Zona Oeste</option>
+          <option>Centro</option>
+          <option>Online</option>
+        </select>
+      </label>
+      <label class="searchfield">
+        <i class="ti ti-target-arrow"></i>
+        <select id="heroGoal">
+          <option value="">Seu objetivo</option>
+          <option>Emagrecimento</option>
+          <option>Hipertrofia</option>
+          <option>Condicionamento</option>
+          <option>Reabilitação</option>
+          <option>Idosos</option>
+        </select>
+      </label>
+      <button class="btn btn-primary btn-lg" type="submit"><i class="ti ti-search"></i> Buscar</button>
+    </form>
+
+    <div class="hero-trust">
+      <span><i class="ti ti-discount-check"></i> Profissionais verificados (CREF)</span>
+      <span><i class="ti ti-star-filled"></i> +12 mil avaliações</span>
+      <span><i class="ti ti-coin"></i> Sem taxa para o aluno</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">2.400+</div><div class="lbl">Personais cadastrados</div></div>
+      <div class="stat"><div class="num">180</div><div class="lbl">Cidades atendidas</div></div>
+      <div class="stat"><div class="num">38 mil</div><div class="lbl">Alunos conectados</div></div>
+      <div class="stat"><div class="num">4,9</div><div class="lbl">Nota média</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== How it works ===== -->
+<section class="sec-pad" id="como">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">Como funciona</div>
+      <h2>Do primeiro clique ao primeiro treino</h2>
+      <p>Em três passos simples você encontra o personal certo e começa a treinar com quem entende do seu objetivo.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="step-n">1</span>
+        <div class="step-ic"><i class="ti ti-map-search"></i></div>
+        <h3>Busque na sua região</h3>
+        <p>Filtre por bairro, academia e objetivo. Mostramos os personais mais bem avaliados perto de você.</p>
+      </div>
+      <div class="step">
+        <span class="step-n">2</span>
+        <div class="step-ic"><i class="ti ti-list-check"></i></div>
+        <h3>Compare e escolha</h3>
+        <p>Veja experiência, especialidades, preço e avaliações reais de alunos. Tudo transparente, sem surpresa.</p>
+      </div>
+      <div class="step">
+        <span class="step-n">3</span>
+        <div class="step-ic"><i class="ti ti-brand-whatsapp"></i></div>
+        <h3>Fale e comece</h3>
+        <p>Converse direto pelo WhatsApp, agende sua aula experimental e comece a treinar. Sem taxa para você.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Directory ===== -->
+<section class="sec-pad" id="personais" style="padding-top:24px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">Personais em destaque</div>
+      <h2>Conheça quem vai treinar você</h2>
+      <p>Profissionais verificados e avaliados por alunos de verdade. Filtre pela sua região e objetivo.</p>
+    </div>
+
+    <div class="dir-toolbar">
+      <div class="dir-search">
+        <i class="ti ti-search"></i>
+        <input type="text" id="dirSearch" placeholder="Buscar por nome, bairro ou especialidade…">
+      </div>
+    </div>
+    <div class="chips" id="dirChips" style="margin-bottom:30px">
+      <button class="chip active" data-filter="all">Todos</button>
+      <button class="chip" data-filter="Emagrecimento">Emagrecimento</button>
+      <button class="chip" data-filter="Hipertrofia">Hipertrofia</button>
+      <button class="chip" data-filter="Funcional">Funcional</button>
+      <button class="chip" data-filter="Idosos">Idosos</button>
+      <button class="chip" data-filter="Online">Online</button>
+    </div>
+
+    <div class="dir-grid" id="dirGrid"></div>
+  </div>
+</section>
+
+<!-- ===== Why us (split) ===== -->
+<section class="sec-pad" style="background:var(--bg2);border-block:1px solid var(--border)">
+  <div class="wrap split">
+    <div>
+      <div class="sec-tag" style="text-align:left">Por que a PT Pro</div>
+      <h2 style="font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-.02em;line-height:1.12;margin-bottom:18px">A indicação que você pode confiar</h2>
+      <div class="feat-list">
+        <div class="feat">
+          <div class="feat-ic"><i class="ti ti-discount-check"></i></div>
+          <div><h4>Todo profissional é verificado</h4><p>Conferimos registro no CREF, experiência e documentação antes de aprovar qualquer cadastro.</p></div>
+        </div>
+        <div class="feat">
+          <div class="feat-ic"><i class="ti ti-message-star"></i></div>
+          <div><h4>Avaliações reais, sem fake</h4><p>Só quem treinou avalia. Notas e comentários de alunos verificados, do jeito que aconteceu.</p></div>
+        </div>
+        <div class="feat">
+          <div class="feat-ic"><i class="ti ti-shield-check"></i></div>
+          <div><h4>Sem taxa para o aluno</h4><p>Buscar, comparar e falar com o personal é 100% grátis. Você paga só o treino, direto com o profissional.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="feat-visual">
+      <div class="mini-card">
+        <div class="mini-row">
+          <div class="mini-av">RC</div>
+          <div class="mini-info"><b>Rafael Costa</b><span>Vila Mariana · Hipertrofia</span><div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i> <span style="color:var(--text3)">5,0</span></div></div>
+          <span class="mini-badge"><i class="ti ti-discount-check"></i> Verificado</span>
+        </div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-row">
+          <div class="mini-av">JM</div>
+          <div class="mini-info"><b>Juliana Mendes</b><span>Online · Emagrecimento</span><div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i> <span style="color:var(--text3)">4,9</span></div></div>
+          <span class="mini-badge"><i class="ti ti-discount-check"></i> Verificado</span>
+        </div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-row">
+          <div class="mini-av">AS</div>
+          <div class="mini-info"><b>André Souza</b><span>Moema · Funcional</span><div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-half-filled"></i> <span style="color:var(--text3)">4,8</span></div></div>
+          <span class="mini-badge"><i class="ti ti-discount-check"></i> Verificado</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Testimonials ===== -->
+<section class="sec-pad">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">Quem usou, recomenda</div>
+      <h2>Histórias de quem encontrou o match certo</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi">
+        <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+        <p>"Achei uma personal a 3 quarteirões de casa que entende exatamente do meu objetivo. Em 2 meses já vi resultado de verdade."</p>
+        <div class="testi-who"><div class="testi-av">CM</div><div><b>Camila M.</b><span>Aluna · Pinheiros</span></div></div>
+      </div>
+      <div class="testi">
+        <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+        <p>"As avaliações me deram segurança pra escolher. Falei pelo WhatsApp, marquei a aula experimental e nunca mais parei."</p>
+        <div class="testi-who"><div class="testi-av">BL</div><div><b>Bruno L.</b><span>Aluno · Online</span></div></div>
+      </div>
+      <div class="testi">
+        <div class="stars"><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i><i class="ti ti-star-filled"></i></div>
+        <p>"Como personal, a PT Pro lotou minha agenda. Recebo alunos da minha região já sabendo o que querem treinar."</p>
+        <div class="testi-who"><div class="testi-av">RC</div><div><b>Rafael C.</b><span>Personal · Vila Mariana</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== For trainers ===== -->
+<section class="sec-pad" id="para-personais">
+  <div class="wrap">
+    <div class="band">
+      <h2>É personal trainer? Sua próxima leva de alunos está aqui.</h2>
+      <p>Crie seu perfil grátis, apareça para quem busca na sua região e receba alunos prontos para começar. Você ainda gerencia tudo com o app PT Pro.</p>
+      <div class="band-actions">
+        <a href="#" class="btn btn-primary btn-lg"><i class="ti ti-user-plus"></i> Criar perfil grátis</a>
+        <a href="#" class="btn btn-ghost btn-lg"><i class="ti ti-player-play"></i> Ver como funciona</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="sec-pad" id="faq" style="padding-top:24px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">Dúvidas frequentes</div>
+      <h2>Tudo o que você precisa saber</h2>
+    </div>
+    <div class="faq" id="faq">
+      <div class="faq-item">
+        <div class="faq-q">Encontrar um personal pela PT Pro tem algum custo? <i class="ti ti-plus"></i></div>
+        <div class="faq-a"><div>Não. Buscar, comparar e falar com os personais é totalmente gratuito para o aluno. Você combina o valor das aulas direto com o profissional.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Como sei que o profissional é confiável? <i class="ti ti-plus"></i></div>
+        <div class="faq-a"><div>Todo personal passa por verificação de registro no CREF e documentação antes de ser aprovado. Além disso, você vê avaliações reais de alunos que já treinaram com ele.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Atende a minha cidade? <i class="ti ti-plus"></i></div>
+        <div class="faq-a"><div>Estamos em mais de 180 cidades e crescendo. E mesmo que não tenhamos personais presenciais na sua região, você encontra ótimos profissionais para acompanhamento online.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Sou personal. Como faço para aparecer? <i class="ti ti-plus"></i></div>
+        <div class="faq-a"><div>É só criar seu perfil gratuito na seção "Para personais". Após a verificação do seu CREF, seu perfil fica visível para alunos buscando na sua região e objetivo.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo">
+          <span class="logo-icon"><i class="ti ti-barbell"></i></span>
+          <span class="logo-text">PT<span>Pro</span></span>
+        </a>
+        <p>A plataforma que conecta alunos aos melhores personal trainers — a indicação certa, na sua região.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Para alunos</h5>
+        <a href="#personais">Encontrar personal</a>
+        <a href="#como">Como funciona</a>
+        <a href="#faq">Dúvidas</a>
+      </div>
+      <div class="foot-col">
+        <h5>Para personais</h5>
+        <a href="#para-personais">Criar perfil</a>
+        <a href="#">App de gestão</a>
+        <a href="#">Planos</a>
+      </div>
+      <div class="foot-col">
+        <h5>Empresa</h5>
+        <a href="#">Sobre</a>
+        <a href="#">Contato</a>
+        <a href="#">Termos & Privacidade</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 PT Pro. Todos os direitos reservados.</span>
+      <div class="foot-social">
+        <a href="#" aria-label="Instagram"><i class="ti ti-brand-instagram"></i></a>
+        <a href="#" aria-label="WhatsApp"><i class="ti ti-brand-whatsapp"></i></a>
+        <a href="#" aria-label="YouTube"><i class="ti ti-brand-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== Data ===== */
+const TRAINERS = [
+  {name:"Rafael Costa",init:"RC",loc:"Vila Mariana, SP",region:"Zona Sul",rating:5.0,reviews:128,tags:["Hipertrofia","Funcional"],bio:"10 anos de experiência. Especialista em ganho de massa e treino de força para todos os níveis.",price:"120",online:false},
+  {name:"Juliana Mendes",init:"JM",loc:"Atendimento online",region:"Online",rating:4.9,reviews:96,tags:["Emagrecimento","Online"],bio:"Acompanhamento 100% online com plano de treino e dieta integrados. Resultados com flexibilidade.",price:"90",online:true},
+  {name:"André Souza",init:"AS",loc:"Moema, SP",region:"Zona Sul",rating:4.8,reviews:74,tags:["Funcional","Condicionamento"],bio:"Treino funcional e condicionamento físico. Aulas dinâmicas focadas em performance e mobilidade.",price:"110",online:false},
+  {name:"Patrícia Lima",init:"PL",loc:"Santana, SP",region:"Zona Norte",rating:5.0,reviews:152,tags:["Idosos","Reabilitação"],bio:"Especialista em treino para a terceira idade e pós-reabilitação. Cuidado, segurança e progressão.",price:"100",online:false},
+  {name:"Diego Ferreira",init:"DF",loc:"Pinheiros, SP",region:"Zona Oeste",rating:4.9,reviews:88,tags:["Hipertrofia","Emagrecimento"],bio:"Transformação corporal com método próprio. Avaliação física completa e acompanhamento semanal.",price:"130",online:false},
+  {name:"Carla Nunes",init:"CN",loc:"Atendimento online",region:"Online",rating:4.8,reviews:67,tags:["Emagrecimento","Online"],bio:"Foco em emagrecimento sustentável e mudança de hábitos. Treinos curtos e eficientes para a rotina.",price:"80",online:true},
+  {name:"Marcos Tavares",init:"MT",loc:"Centro, SP",region:"Centro",rating:4.7,reviews:54,tags:["Condicionamento","Funcional"],bio:"Personal de empresas e treino na hora do almoço. Condicionamento e disposição para o dia a dia.",price:"95",online:false},
+  {name:"Beatriz Rocha",init:"BR",loc:"Tatuapé, SP",region:"Zona Norte",rating:5.0,reviews:113,tags:["Hipertrofia","Idosos"],bio:"Treino de força para todas as idades. Atendimento humanizado e planos personalizados por objetivo.",price:"105",online:false},
+  {name:"Felipe Araújo",init:"FA",loc:"Butantã, SP",region:"Zona Oeste",rating:4.9,reviews:79,tags:["Funcional","Reabilitação"],bio:"Fisioterapeuta e personal. Especialista em reabilitação esportiva e prevenção de lesões.",price:"140",online:false},
+];
+
+const stars = (r)=>{
+  let s="";const full=Math.floor(r),half=r-full>=.5;
+  for(let i=0;i<full;i++)s+='<i class="ti ti-star-filled"></i>';
+  if(half)s+='<i class="ti ti-star-half-filled"></i>';
+  for(let i=full+(half?1:0);i<5;i++)s+='<i class="ti ti-star"></i>';
+  return s;
+};
+
+const grid=document.getElementById('dirGrid');
+function render(list){
+  if(!list.length){
+    grid.innerHTML='<div class="dir-empty"><i class="ti ti-mood-empty"></i>Nenhum personal encontrado com esses filtros.<br>Tente outra região ou objetivo.</div>';
+    return;
+  }
+  grid.innerHTML=list.map(t=>`
+    <div class="card">
+      <div class="card-top">
+        <div class="avatar">${t.init}<span class="verified" title="Verificado"><i class="ti ti-check"></i></span></div>
+        <div>
+          <div class="card-name">${t.name}</div>
+          <div class="card-loc"><i class="ti ti-map-pin"></i> ${t.loc}</div>
+        </div>
+      </div>
+      <div class="card-rating">
+        <span class="stars">${stars(t.rating)}</span>
+        <b>${t.rating.toFixed(1)}</b>
+        <span>(${t.reviews} avaliações)</span>
+      </div>
+      <div class="card-tags">${t.tags.map(x=>`<span class="tag">${x}</span>`).join('')}</div>
+      <p class="card-bio">${t.bio}</p>
+      <div class="card-foot">
+        <div class="card-price">a partir de<b>R$ ${t.price}<small style="font-size:12px;font-weight:500;color:var(--text3)">/aula</small></b></div>
+        <a href="#" class="btn btn-wa"><i class="ti ti-brand-whatsapp"></i> Falar</a>
+      </div>
+    </div>`).join('');
+}
+
+let activeFilter='all';
+function applyFilters(){
+  const q=document.getElementById('dirSearch').value.trim().toLowerCase();
+  const out=TRAINERS.filter(t=>{
+    const matchFilter = activeFilter==='all'
+      || t.tags.includes(activeFilter)
+      || (activeFilter==='Online' && t.online);
+    const hay=(t.name+' '+t.loc+' '+t.tags.join(' ')).toLowerCase();
+    const matchSearch = !q || hay.includes(q);
+    return matchFilter && matchSearch;
+  });
+  render(out);
+}
+render(TRAINERS);
+
+document.getElementById('dirSearch').addEventListener('input',applyFilters);
+document.querySelectorAll('#dirChips .chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('#dirChips .chip').forEach(x=>x.classList.remove('active'));
+    c.classList.add('active');
+    activeFilter=c.dataset.filter;
+    applyFilters();
+  });
+});
+
+/* Hero search -> directory */
+function scrollToDir(e){
+  e.preventDefault();
+  const goal=document.getElementById('heroGoal').value;
+  const region=document.getElementById('heroRegion').value;
+  const map={'Emagrecimento':'Emagrecimento','Hipertrofia':'Hipertrofia','Condicionamento':'all','Reabilitação':'all','Idosos':'Idosos'};
+  let f='all';
+  if(goal && map[goal] && map[goal]!=='all') f=map[goal];
+  else if(region==='Online') f='Online';
+  document.querySelectorAll('#dirChips .chip').forEach(x=>x.classList.toggle('active',x.dataset.filter===f));
+  activeFilter=f;
+  if(region && region!=='Online') document.getElementById('dirSearch').value='';
+  applyFilters();
+  document.getElementById('personais').scrollIntoView({behavior:'smooth'});
+  return false;
+}
+
+/* Header scroll state */
+const hdr=document.getElementById('hdr');
+addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>10));
+
+/* Mobile menu */
+const mm=document.getElementById('mobileMenu');
+document.getElementById('menuBtn').addEventListener('click',()=>mm.classList.toggle('open'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('open')));
+
+/* FAQ accordion */
+document.querySelectorAll('.faq-item').forEach(item=>{
+  item.querySelector('.faq-q').addEventListener('click',()=>{
+    const open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!open)item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
