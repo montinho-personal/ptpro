@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estratégia de Treino — Consultor IA para Personal Trainers</title>
+<link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#09090E;--bg2:#111118;--bg3:#18181F;--bg4:#22222C;
+  --border:#2A2A38;--border2:#3A3A4A;
+  --text:#F0F0F8;--text2:#C0C0D0;--text3:#707088;
+  --accent:#C8F04D;--accent2:#A8D030;--accent-dim:#C8F04D22;
+  --red:#FF5555;--red-dim:#FF555522;
+  --amber:#F0A020;--green:#50E0A0;--green-dim:#50E0A022;--blue:#5090FF;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;font-size:14px;display:flex;flex-direction:column;min-height:100vh}
+
+/* Topbar */
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:5}
+.logo-icon{width:34px;height:34px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-icon i{color:#09090E;font-size:18px}
+.logo-txt{font-weight:700;font-size:15px;line-height:1.1}
+.logo-sub{font-size:11px;color:var(--text3)}
+.topbar-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.model-chip{font-size:11px;color:var(--text3);background:var(--bg3);border:1px solid var(--border);padding:5px 9px;border-radius:8px;white-space:nowrap}
+.model-chip b{color:var(--accent);font-weight:600}
+.icon-btn{width:36px;height:36px;border-radius:9px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;transition:all .15s}
+.icon-btn:hover{background:var(--bg4);color:var(--text)}
+
+/* Chat area */
+.chat{flex:1;overflow-y:auto;padding:20px 0 8px}
+.chat-inner{max-width:780px;margin:0 auto;padding:0 16px;display:flex;flex-direction:column;gap:18px}
+.msg{display:flex;gap:12px;align-items:flex-start}
+.msg-av{width:30px;height:30px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px;margin-top:2px}
+.msg.user .msg-av{background:var(--blue);color:#fff}
+.msg.assistant .msg-av{background:var(--accent);color:#09090E}
+.msg-body{flex:1;min-width:0}
+.msg-name{font-size:11px;color:var(--text3);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.bubble{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px 16px;line-height:1.6;color:var(--text);overflow-wrap:anywhere}
+.msg.user .bubble{background:#16202e;border-color:#24344a}
+.bubble h1,.bubble h2,.bubble h3{line-height:1.3;margin:14px 0 6px;color:var(--text)}
+.bubble h1{font-size:18px}.bubble h2{font-size:16px}.bubble h3{font-size:14px;color:var(--accent)}
+.bubble h1:first-child,.bubble h2:first-child,.bubble h3:first-child{margin-top:0}
+.bubble p{margin:7px 0}
+.bubble p:first-child{margin-top:0}.bubble p:last-child{margin-bottom:0}
+.bubble ul{margin:7px 0 7px 4px;list-style:none}
+.bubble li{position:relative;padding-left:18px;margin:4px 0}
+.bubble li:before{content:"›";position:absolute;left:2px;color:var(--accent);font-weight:700}
+.bubble strong{color:#fff;font-weight:600}
+.bubble hr{border:none;border-top:1px solid var(--border2);margin:12px 0}
+.bubble code{background:var(--bg4);padding:1px 5px;border-radius:5px;font-size:.92em}
+.msg-tools{display:flex;gap:6px;margin-top:7px}
+.tool-btn{font-size:11px;color:var(--text3);background:none;border:1px solid var(--border);padding:4px 9px;border-radius:7px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
+.tool-btn:hover{color:var(--text);border-color:var(--border2);background:var(--bg3)}
+.tool-btn.wa:hover{color:var(--green);border-color:#50E0A044}
+.cursor{display:inline-block;width:8px;height:15px;background:var(--accent);margin-left:2px;border-radius:1px;animation:blink .9s steps(1) infinite;vertical-align:-2px}
+@keyframes blink{50%{opacity:0}}
+
+/* Empty / welcome */
+.welcome{max-width:620px;margin:auto;padding:30px 18px;text-align:center}
+.welcome .big{width:64px;height:64px;border-radius:16px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.welcome .big i{font-size:32px;color:#09090E}
+.welcome h2{font-size:20px;margin-bottom:8px}
+.welcome p{color:var(--text2);line-height:1.6;margin-bottom:6px}
+.welcome .steps{text-align:left;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin:20px 0;display:flex;flex-direction:column;gap:12px}
+.welcome .step{display:flex;gap:12px;align-items:flex-start}
+.welcome .step .n{width:24px;height:24px;border-radius:7px;background:var(--accent-dim);color:var(--accent);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.welcome .step b{color:var(--text)}
+.welcome .step span{color:var(--text3);font-size:13px}
+
+/* Composer */
+.composer-wrap{border-top:1px solid var(--border);background:var(--bg2);padding:12px 0 14px;position:sticky;bottom:0}
+.composer{max-width:780px;margin:0 auto;padding:0 16px}
+.composer-box{display:flex;align-items:flex-end;gap:8px;background:var(--bg3);border:1px solid var(--border2);border-radius:14px;padding:8px 8px 8px 14px;transition:border-color .15s}
+.composer-box:focus-within{border-color:#C8F04D88}
+.composer textarea{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:14px;font-family:inherit;resize:none;max-height:180px;line-height:1.5;padding:6px 0}
+.composer textarea::placeholder{color:var(--text3)}
+.send-btn{width:38px;height:38px;border-radius:10px;border:none;background:var(--accent);color:#09090E;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:all .15s}
+.send-btn:hover{background:var(--accent2)}
+.send-btn:disabled{opacity:.4;cursor:not-allowed}
+.send-btn.stop{background:var(--red-dim);color:var(--red)}
+.composer-hint{text-align:center;font-size:11px;color:var(--text3);margin-top:7px}
+.composer-hint b{color:var(--text2)}
+
+/* Modal */
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:100;display:none;align-items:center;justify-content:center;padding:18px}
+.modal-back.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto}
+.modal-h{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-h h3{font-size:16px}
+.modal-b{padding:18px 20px;display:flex;flex-direction:column;gap:16px}
+.field label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block}
+.field input,.field select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:10px 12px;color:var(--text);font-size:13px;outline:none}
+.field input:focus,.field select:focus{border-color:#C8F04D88}
+.field .hint{font-size:11px;color:var(--text3);margin-top:6px;line-height:1.5}
+.field .hint a{color:var(--accent)}
+select option{background:var(--bg2)}
+.modal-f{padding:0 20px 20px;display:flex;gap:8px;justify-content:flex-end}
+.btn{padding:10px 16px;border-radius:9px;border:none;cursor:pointer;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--accent);color:#09090E}
+.btn-primary:hover{background:var(--accent2)}
+.btn-ghost{background:var(--bg3);color:var(--text);border:1px solid var(--border2)}
+.btn-ghost:hover{background:var(--bg4)}
+.btn-danger{background:var(--red-dim);color:var(--red)}
+
+/* Toast */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg4);border:1px solid var(--border2);border-radius:10px;padding:11px 18px;font-size:13px;z-index:200;opacity:0;transition:all .25s;pointer-events:none;display:flex;align-items:center;gap:8px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast i{color:var(--accent)}
+.err-banner{background:var(--red-dim);border:1px solid #FF555544;color:#ffb3b3;border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.5}
+
+@media(max-width:600px){
+  .model-chip{display:none}
+  .chat-inner,.composer{padding-left:12px;padding-right:12px}
+  .bubble{padding:12px 14px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo-icon"><i class="ti ti-barbell"></i></div>
+  <div>
+    <div class="logo-txt">Estratégia de Treino</div>
+    <div class="logo-sub">Consultor técnico • Personal Trainer</div>
+  </div>
+  <div class="topbar-actions">
+    <span class="model-chip" id="modelChip">Modelo: <b>—</b></span>
+    <button class="icon-btn" title="Nova consulta" onclick="novaConsulta()"><i class="ti ti-plus"></i></button>
+    <button class="icon-btn" title="Configurações" onclick="openCfg()"><i class="ti ti-settings"></i></button>
+  </div>
+</div>
+
+<div class="chat" id="chat"></div>
+
+<div class="composer-wrap">
+  <div class="composer">
+    <div class="composer-box">
+      <textarea id="input" rows="1" placeholder="Cole a anamnese do aluno ou responda à pergunta..." oninput="autoGrow(this)" onkeydown="onKey(event)"></textarea>
+      <button class="send-btn" id="sendBtn" onclick="onSend()" title="Enviar"><i class="ti ti-arrow-up"></i></button>
+    </div>
+    <div class="composer-hint">Comece colando a <b>anamnese do aluno</b>. O sistema fará a entrevista técnica com você, etapa por etapa.</div>
+  </div>
+</div>
+
+<!-- Settings modal -->
+<div class="modal-back" id="cfgModal">
+  <div class="modal">
+    <div class="modal-h"><h3>Configurações</h3><button class="icon-btn" onclick="closeCfg()"><i class="ti ti-x"></i></button></div>
+    <div class="modal-b">
+      <div id="cfgErr"></div>
+      <div class="field">
+        <label>Chave da API da Claude (Anthropic)</label>
+        <input type="password" id="apiKey" placeholder="sk-ant-...">
+        <div class="hint">A chave fica salva <b>apenas neste navegador</b> (localStorage) e é enviada direto para a Anthropic. Obtenha a sua em <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>.</div>
+      </div>
+      <div class="field">
+        <label>Modelo</label>
+        <select id="model">
+          <option value="claude-opus-4-8">Claude Opus 4.8 — máxima qualidade (recomendado)</option>
+          <option value="claude-sonnet-5">Claude Sonnet 5 — equilíbrio custo/qualidade</option>
+          <option value="claude-haiku-4-5">Claude Haiku 4.5 — mais rápido e econômico</option>
+        </select>
+        <div class="hint">Para a análise técnica de alto nível, o Opus 4.8 entrega o melhor raciocínio. O Sonnet 5 é um ótimo meio-termo.</div>
+      </div>
+    </div>
+    <div class="modal-f">
+      <button class="btn btn-ghost" onclick="closeCfg()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveCfg()"><i class="ti ti-check"></i>Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="ti ti-check"></i><span id="toastMsg"></span></div>
+
+<script>
+/* ============================================================
+   SISTEMA PROFISSIONAL DE ESTRATÉGIA DE TREINAMENTO — System prompt
+   ============================================================ */
+const SYSTEM_PROMPT = `# SISTEMA PROFISSIONAL DE ESTRATÉGIA DE TREINAMENTO PERSONALIZADO
+
+## IDENTIDADE
+Você é um Sistema Profissional de Formulação de Estratégias de Treinamento para Personal Trainers.
+Seu papel NÃO é montar o treino. Seu papel NÃO é substituir o julgamento do treinador.
+Seu papel é atuar como um consultor técnico de altíssimo nível, auxiliando o Personal Trainer a organizar seu raciocínio, validar suas decisões e transformar sua estratégia em uma apresentação extremamente profissional, personalizada e de fácil compreensão para o aluno.
+Pense como uma equipe formada pelos maiores especialistas em musculação, treinamento esportivo, biomecânica, periodização e ciência do exercício.
+
+## REFERÊNCIAS TÉCNICAS
+Baseie todas as análises no consenso entre evidências científicas atuais e nas metodologias de profissionais reconhecidos mundialmente (entre eles Fabrício Pacholok, Leandro Twin, Hany Rambod, Mike Israetel, Brad Schoenfeld, Greg Nuckols, Eric Helms, Chris Beardsley, Christian Thibaudeau, Charles Poliquin quando pertinente, Yuri Verkhoshansky, Vladimir Zatsiorsky, Tudor Bompa).
+Nunca copie literalmente nenhum profissional. Use apenas princípios amplamente aceitos e adapte tudo ao contexto individual do aluno. Nunca recomende algo apenas porque determinado treinador utiliza determinado método.
+
+## PRINCÍPIO MAIS IMPORTANTE
+A estratégia sempre será definida pelo Personal Trainer. Você nunca decide sozinho. Você conduz uma entrevista inteligente. Seu objetivo é ajudar o treinador a pensar melhor.
+
+## FLUXO DE TRABALHO
+Siga exatamente esta sequência. Nunca pule etapas. Nunca gere a estratégia final antes de concluir toda a entrevista.
+
+### ETAPA 1 — ANÁLISE DA ANAMNESE
+Primeiro você receberá a anamnese do aluno. Nesta etapa você NÃO cria nenhuma estratégia. Apenas analise profundamente todas as informações.
+Identifique: objetivo principal; objetivos secundários; nível de experiência; disponibilidade semanal; rotina; modalidade esportiva; histórico de treino; lesões; dores; limitações; mobilidade; estabilidade; pontos fortes; pontos fracos; riscos; motivação; aderência; recuperação; qualquer informação importante para o planejamento.
+Ao final apresente um RESUMO EXECUTIVO contendo: Perfil do aluno; Principais pontos positivos; Principais pontos de atenção; Prioridades para este planejamento.
+Depois escreva apenas, exatamente: "Análise concluída. Vamos construir sua estratégia personalizada."
+Não avance para a próxima etapa automaticamente. Espere a confirmação do treinador.
+
+### ETAPA 2 — ENTREVISTA COM O PERSONAL
+Após a confirmação, faça uma entrevista técnica. Faça apenas UMA pergunta por vez. Nunca faça várias perguntas juntas. Espere a resposta antes de continuar. Sempre explique rapidamente por que aquela pergunta é importante.
+Após cada resposta do treinador: faça uma análise técnica; valide a coerência da decisão; apresente vantagens; apresente possíveis riscos; sugira melhorias apenas quando fizer sentido; nunca imponha mudanças; nunca altere as decisões do treinador. Você funciona como um segundo especialista.
+
+ORDEM DAS PERGUNTAS (uma de cada vez, na ordem):
+1. Objetivo do ciclo — Qual o principal objetivo deste ciclo? Há objetivo secundário? Há alguma prioridade que não apareceu na anamnese?
+2. Divisão do treinamento — Qual divisão será usada? Por que essa divisão? Quais benefícios para este aluno? Há adaptação por rotina, dores, modalidade ou disponibilidade?
+3. Estratégia de periodização — Como será dividida? Quantas fases? Foco de cada fase? Como evoluir volume? Como evoluir intensidade? Há previsão de deload?
+4. Estratégia de repetições — Qual faixa de repetições? Motivo? Usará RIR? RPE? Falha muscular? Cadência? Tempo sob tensão? Isometrias? Drop-set? Rest-pause? Outras técnicas avançadas? Quando cada uma será usada?
+5. Estratégia dos exercícios — Há prioridade para algum grupo muscular? Exercícios obrigatórios? Exercícios a evitar? Adaptações por dores/limitações? Algum exercício importante para o objetivo?
+6. Aquecimento — Como será? Quais mobilidades? Haverá ativação muscular? Core? Estabilidade? Preparação específica?
+7. Cardio — Haverá cardio? Objetivo? Frequência? Intensidade? Em quais dias?
+8. Estratégia de progressão — Como será feita? Quando aumentar carga? Quando aumentar volume? Quando trocar exercícios? Quando reduzir volume? Quais critérios para evoluir?
+9. Feedback esperado — Quais informações o aluno deverá enviar periodicamente (ex.: dores, recuperação, fadiga, sono, desempenho, execução, motivação, peso, medidas, evolução das cargas)?
+10. Observações finais — Há alguma orientação importante? Algo que o aluno precisa evitar? Alguma recomendação especial?
+Após cada resposta, faça a análise técnica antes de seguir para a próxima pergunta.
+
+### ETAPA 3 — GERAÇÃO DA APRESENTAÇÃO
+Somente após concluir TODA a entrevista, gere uma apresentação pronta para enviar ao aluno pelo WhatsApp.
+Linguagem: profissional, personalizada, acolhedora, objetiva, motivadora, fácil de entender, sem excesso de termos técnicos. Explique sempre o motivo de cada decisão. Faça o aluno perceber que existe um planejamento individualizado. Use emojis apenas para melhorar a leitura, sem exageros. Use separadores para organizar. Evite parágrafos muito longos.
+ESTRUTURA DA APRESENTAÇÃO (nesta ordem):
+1. Saudação personalizada
+2. Objetivo — explique como a musculação ajudará o aluno a alcançar seu objetivo.
+3. Diagnóstico Atual — resuma o perfil; destaque pontos fortes, limitações, dores, experiência, prioridades.
+4. Estratégia Geral do Treinamento — explique a estratégia e a lógica do planejamento.
+5. Divisão do Treinamento — informe a divisão e explique por que foi escolhida para este aluno; mostre os benefícios.
+6. Como Vamos Evoluir — explique toda a periodização, cada fase e a lógica da evolução.
+7. Estratégia de Repetições — explique a faixa escolhida e o motivo de RIR/RPE/isometrias/técnicas avançadas.
+8. Estratégia dos Exercícios — explique os critérios de seleção; se houver exercícios evitados, explique o motivo.
+9. Aquecimento e Preparação — explique a importância do aquecimento, mobilidade, ativação e preparação específica.
+10. Estratégia de Progressão — explique de forma simples como o treino vai evoluir ao longo das semanas.
+11. Seu Papel no Processo — explique quais informações o aluno deverá enviar e a importância do acompanhamento.
+12. Como Avaliaremos sua Evolução — indicadores acompanhados (cargas, execução, dores, recuperação, desempenho, medidas, peso, evolução física).
+13. Mensagem Final — mensagem motivacional personalizada conforme o perfil do aluno.
+
+## REGRAS GERAIS
+Nunca invente informações. Nunca contradiga a anamnese. Nunca contradiga as decisões do treinador. Sempre explique o PORQUÊ de cada estratégia. Na Etapa 3, escreva como se estivesse conversando diretamente com o aluno pelo WhatsApp. Evite textos excessivamente técnicos. Evite parágrafos muito longos. Organize bem o conteúdo. Faça o aluno sentir que recebeu uma estratégia exclusiva, construída especialmente para ele, baseada em ciência, experiência prática e acompanhamento individualizado.`;
+
+/* ===== State ===== */
+const LS_KEY='estrategia_treino_v1';
+let cfg = { apiKey:'', model:'claude-opus-4-8' };
+let messages = [];   // {role:'user'|'assistant', content:string}
+let streaming = false;
+let abortCtrl = null;
+
+/* ===== Persistence ===== */
+function load(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(raw){ const d=JSON.parse(raw); cfg=Object.assign(cfg,d.cfg||{}); messages=d.messages||[]; }
+  }catch(e){}
+}
+function save(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify({cfg,messages})); }catch(e){}
+}
+
+/* ===== Helpers ===== */
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* Minimal markdown -> HTML for assistant output */
+function mdToHtml(src){
+  const lines = esc(src).split('\n');
+  let html='', inList=false;
+  const closeList=()=>{ if(inList){ html+='</ul>'; inList=false; } };
+  const inline = t => t
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/`([^`]+?)`/g,'<code>$1</code>');
+  for(let raw of lines){
+    let l = raw.trim();
+    if(l===''){ closeList(); continue; }
+    if(/^(---+|___+|\*\*\*+)$/.test(l)){ closeList(); html+='<hr>'; continue; }
+    let m;
+    if(m=l.match(/^###\s+(.*)/)){ closeList(); html+='<h3>'+inline(m[1])+'</h3>'; continue; }
+    if(m=l.match(/^##\s+(.*)/)){ closeList(); html+='<h2>'+inline(m[1])+'</h2>'; continue; }
+    if(m=l.match(/^#\s+(.*)/)){ closeList(); html+='<h1>'+inline(m[1])+'</h1>'; continue; }
+    if(m=l.match(/^(?:[-*•]|\d+[.)])\s+(.*)/)){
+      if(!inList){ html+='<ul>'; inList=true; }
+      html+='<li>'+inline(m[1])+'</li>'; continue;
+    }
+    closeList();
+    html+='<p>'+inline(l)+'</p>';
+  }
+  closeList();
+  return html;
+}
+
+function toast(msg){
+  document.getElementById('toastMsg').textContent=msg;
+  const t=document.getElementById('toast'); t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+/* ===== Render ===== */
+function render(){
+  const chat=document.getElementById('chat');
+  if(messages.length===0){
+    chat.innerHTML = welcomeHtml();
+    return;
+  }
+  let html='<div class="chat-inner">';
+  messages.forEach((m,i)=>{ html+=msgHtml(m,i); });
+  html+='</div>';
+  chat.innerHTML=html;
+  scrollBottom();
+}
+function welcomeHtml(){
+  const hasKey = !!cfg.apiKey;
+  return `<div class="welcome">
+    <div class="big"><i class="ti ti-clipboard-heart"></i></div>
+    <h2>Consultor de Estratégia de Treino</h2>
+    <p>Um segundo especialista para te ajudar a estruturar a estratégia do aluno e gerar uma apresentação profissional para o WhatsApp.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div><b>Cole a anamnese</b><br><span>O sistema analisa o perfil e devolve um resumo executivo.</span></div></div>
+      <div class="step"><div class="n">2</div><div><b>Entrevista técnica</b><br><span>Uma pergunta por vez sobre divisão, periodização, repetições, exercícios, etc. Você decide; ele valida.</span></div></div>
+      <div class="step"><div class="n">3</div><div><b>Apresentação pronta</b><br><span>Ao final, gera o texto personalizado para enviar ao aluno.</span></div></div>
+    </div>
+    ${ hasKey
+      ? `<p style="color:var(--text3)">Cole a anamnese do aluno no campo abaixo para começar.</p>`
+      : `<button class="btn btn-primary" onclick="openCfg()"><i class="ti ti-key"></i>Configurar chave da API para começar</button>` }
+  </div>`;
+}
+function msgHtml(m,i){
+  if(m.role==='user'){
+    return `<div class="msg user"><div class="msg-av"><i class="ti ti-user"></i></div>
+      <div class="msg-body"><div class="msg-name">Personal Trainer</div>
+      <div class="bubble">${mdToHtml(m.content)}</div></div></div>`;
+  }
+  const streamingCursor = (i===messages.length-1 && streaming) ? '<span class="cursor"></span>' : '';
+  const tools = (m.content && !(i===messages.length-1 && streaming)) ? `
+    <div class="msg-tools">
+      <button class="tool-btn" onclick="copyMsg(${i})"><i class="ti ti-copy"></i>Copiar</button>
+      <button class="tool-btn wa" onclick="shareWa(${i})"><i class="ti ti-brand-whatsapp"></i>WhatsApp</button>
+    </div>` : '';
+  return `<div class="msg assistant"><div class="msg-av"><i class="ti ti-barbell"></i></div>
+    <div class="msg-body"><div class="msg-name">Consultor</div>
+    <div class="bubble" id="bubble-${i}">${mdToHtml(m.content)}${streamingCursor}</div>${tools}</div></div>`;
+}
+function scrollBottom(){ const c=document.getElementById('chat'); c.scrollTop=c.scrollHeight; }
+
+function copyMsg(i){ navigator.clipboard.writeText(messages[i].content).then(()=>toast('Texto copiado!')); }
+function shareWa(i){ window.open('https://wa.me/?text='+encodeURIComponent(messages[i].content),'_blank'); }
+
+/* ===== Composer ===== */
+function autoGrow(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,180)+'px'; }
+function onKey(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); onSend(); } }
+
+function onSend(){
+  if(streaming){ stopStream(); return; }
+  const el=document.getElementById('input');
+  const text=el.value.trim();
+  if(!text) return;
+  if(!cfg.apiKey){ openCfg(); toast('Configure a chave da API primeiro'); return; }
+  el.value=''; autoGrow(el);
+  messages.push({role:'user',content:text});
+  messages.push({role:'assistant',content:''});
+  save(); render();
+  callClaude();
+}
+
+function setSending(on){
+  streaming=on;
+  const b=document.getElementById('sendBtn');
+  if(on){ b.classList.add('stop'); b.innerHTML='<i class="ti ti-player-stop-filled"></i>'; b.title='Parar'; }
+  else{ b.classList.remove('stop'); b.innerHTML='<i class="ti ti-arrow-up"></i>'; b.title='Enviar'; }
+}
+function stopStream(){ if(abortCtrl) abortCtrl.abort(); }
+
+/* ===== Claude API (streaming, direct browser access) ===== */
+async function callClaude(){
+  setSending(true);
+  abortCtrl = new AbortController();
+  const idx = messages.length-1; // assistant placeholder
+  // Build API messages (exclude any trailing empty assistant placeholder)
+  const apiMsgs = messages.slice(0,idx).map(m=>({role:m.role,content:m.content}));
+  try{
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'content-type':'application/json',
+        'x-api-key':cfg.apiKey,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:cfg.model,
+        max_tokens:8000,
+        system:SYSTEM_PROMPT,
+        stream:true,
+        messages:apiMsgs
+      }),
+      signal:abortCtrl.signal
+    });
+    if(!res.ok){
+      let detail='';
+      try{ const j=await res.json(); detail=j.error?.message||JSON.stringify(j); }catch(e){ detail=await res.text(); }
+      throw new Error('HTTP '+res.status+' — '+detail);
+    }
+    const reader=res.body.getReader();
+    const dec=new TextDecoder();
+    let buf='';
+    while(true){
+      const {done,value}=await reader.read();
+      if(done) break;
+      buf+=dec.decode(value,{stream:true});
+      let nl;
+      while((nl=buf.indexOf('\n'))>=0){
+        const line=buf.slice(0,nl); buf=buf.slice(nl+1);
+        if(!line.startsWith('data:')) continue;
+        const data=line.slice(5).trim();
+        if(!data || data==='[DONE]') continue;
+        let ev; try{ ev=JSON.parse(data); }catch(e){ continue; }
+        if(ev.type==='content_block_delta' && ev.delta && ev.delta.type==='text_delta'){
+          messages[idx].content += ev.delta.text;
+          updateBubble(idx);
+        } else if(ev.type==='message_delta' && ev.delta && ev.delta.stop_reason==='max_tokens'){
+          messages[idx].content += '\n\n_(resposta interrompida por limite de tamanho — peça para continuar)_';
+        } else if(ev.type==='error'){
+          throw new Error(ev.error?.message||'Erro de streaming');
+        }
+      }
+    }
+    if(!messages[idx].content){
+      messages[idx].content='_(sem resposta — tente novamente)_';
+    }
+  }catch(err){
+    if(err.name==='AbortError'){
+      messages[idx].content += (messages[idx].content?'\n\n':'')+'_(geração interrompida)_';
+    }else{
+      messages[idx].content = errorMsg(err.message||String(err));
+    }
+  }finally{
+    setSending(false);
+    save(); render();
+  }
+}
+
+function updateBubble(idx){
+  const el=document.getElementById('bubble-'+idx);
+  if(el){ el.innerHTML=mdToHtml(messages[idx].content)+'<span class="cursor"></span>'; scrollBottom(); }
+}
+
+function errorMsg(detail){
+  let dica='';
+  if(/401|authentication|invalid x-api-key/i.test(detail)) dica=' Verifique se a chave da API está correta nas Configurações.';
+  else if(/403|permission/i.test(detail)) dica=' A chave não tem permissão para este modelo.';
+  else if(/404|not_found/i.test(detail)) dica=' Modelo inválido — escolha outro nas Configurações.';
+  else if(/429|rate_limit/i.test(detail)) dica=' Limite de requisições atingido. Aguarde alguns segundos.';
+  else if(/Failed to fetch|NetworkError|CORS/i.test(detail)) dica=' Falha de rede/CORS. Verifique sua conexão e tente novamente.';
+  return '**⚠️ Erro ao falar com a Claude**\n\n`'+detail+'`'+dica;
+}
+
+/* ===== Settings ===== */
+function openCfg(){
+  document.getElementById('apiKey').value=cfg.apiKey;
+  document.getElementById('model').value=cfg.model;
+  document.getElementById('cfgErr').innerHTML='';
+  document.getElementById('cfgModal').classList.add('open');
+}
+function closeCfg(){ document.getElementById('cfgModal').classList.remove('open'); }
+function saveCfg(){
+  const key=document.getElementById('apiKey').value.trim();
+  const model=document.getElementById('model').value;
+  if(!key){ document.getElementById('cfgErr').innerHTML='<div class="err-banner">Informe a chave da API para continuar.</div>'; return; }
+  cfg.apiKey=key; cfg.model=model; save();
+  updateModelChip(); closeCfg(); render();
+  toast('Configurações salvas');
+}
+function updateModelChip(){
+  const names={'claude-opus-4-8':'Opus 4.8','claude-sonnet-5':'Sonnet 5','claude-haiku-4-5':'Haiku 4.5'};
+  document.querySelector('#modelChip b').textContent=names[cfg.model]||cfg.model;
+}
+
+/* ===== New consultation ===== */
+function novaConsulta(){
+  if(messages.length>0 && !confirm('Iniciar uma nova consulta? A conversa atual será apagada.')) return;
+  messages=[]; save(); render();
+}
+
+/* ===== Init ===== */
+load();
+updateModelChip();
+render();
+if(!cfg.apiKey) setTimeout(()=>{ if(messages.length===0){} },50);
+</script>
+</body>
+</html>
